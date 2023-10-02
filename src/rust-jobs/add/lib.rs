@@ -1,10 +1,10 @@
 // Entry point for the proof
-fn main() {
+pub extern "C" fn entrypt() {
     test_test1();
 }
 
-#[kani::proof]
 #[cfg(kani)]
+#[kani::proof]
 fn test_test1() {
     // let mut x: i32 = sea::nd_i32();
     let mut x: i32 = kani::any();

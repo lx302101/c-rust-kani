@@ -7,7 +7,7 @@ edition = "2021"
 
 [lib]
 crate-type = ["staticlib"]
-path = "main.rs"
+path = "lib.rs"
 
 [features]
 default = []
