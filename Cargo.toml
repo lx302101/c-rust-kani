@@ -10,23 +10,23 @@ members = [
 panic = "abort"
 opt-level = 2
 
-rustflags = [
-   "-Clinker-plugin-lto", 
-   "-Clinker=clang-14",
-   "-Clink-arg=-fuse-ld=lld",
-   "-Zemit-thin-lto=no",
-]
+#rustflags = [
+#   "-Clinker-plugin-lto", 
+#   "-Clinker=clang-14",
+#   "-Clink-arg=-fuse-ld=lld",
+#   "-Zemit-thin-lto=no",
+#]
 
 [profile.release]
 panic = "abort"
 opt-level = 2
 
-rustflags = [
-   "-Clinker-plugin-lto", 
-   "-Clinker=clang-14",
-   "-Clink-arg=-fuse-ld=lld",
-   "-Zemit-thin-lto=no"
-]
+#rustflags = [
+#   "-Clinker-plugin-lto", 
+#   "-Clinker=clang-14",
+#   "-Clink-arg=-fuse-ld=lld",
+#   "-Zemit-thin-lto=no"
+#]
 
 [profile.dev.package.smallvec-drain-error-lib]
 overflow-checks = false
