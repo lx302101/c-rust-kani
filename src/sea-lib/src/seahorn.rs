@@ -6,32 +6,6 @@ pub fn verifier_error() { unsafe { __VERIFIER_error(); } }
 #[no_mangle]
 pub fn assume(v: bool) { unsafe { __VERIFIER_assume(v.into()); } }
 
-#[no_mangle]
-pub fn nd_i8() -> i8 { unsafe { sea_nd_i8() } }
-#[no_mangle]
-pub fn nd_u8() -> u8 { unsafe { sea_nd_u8() } }
-#[no_mangle]
-pub fn nd_i16() -> i16 { unsafe { sea_nd_i16() } }
-#[no_mangle]
-pub fn nd_u16() -> u16 { unsafe { sea_nd_u16() } }
-#[no_mangle]
-pub fn nd_u32() -> u32 { unsafe { sea_nd_u32() } }
-#[no_mangle]
-pub fn nd_i64() -> i64 { unsafe { sea_nd_i64() } }
-#[no_mangle]
-pub fn nd_u64() -> u64 { unsafe { sea_nd_u64() } }
-#[no_mangle]
-pub fn nd_usize() -> usize { unsafe { sea_nd_usize() } }
-#[no_mangle]
-pub fn nd_isize() -> isize { unsafe { sea_nd_isize() } }
-#[no_mangle]
-pub fn nd_uintptr() -> usize { unsafe { sea_nd_uintptr() } }
-#[no_mangle]
-pub fn nd_intptr() -> isize { unsafe { sea_nd_intptr() } }
-
-#[no_mangle]
-pub fn nd_bool() -> bool { unsafe { sea_nd_bool() } }
-
 #[macro_export]
 macro_rules! sea_printf {
     ($message:expr $(, $args:expr)*) => {{
@@ -68,7 +42,27 @@ macro_rules! generate_impl {
     };
 }
 
+generate_impl!(i8, sea_nd_i8);
+generate_impl!(u8, sea_nd_u8);
+generate_impl!(i16, sea_nd_i16);
+generate_impl!(u16, sea_nd_u16);
 generate_impl!(i32, sea_nd_i32);
+generate_impl!(u32, sea_nd_u32);
+generate_impl!(i64, sea_nd_i64);
+generate_impl!(u64, sea_nd_u64);
+
+generate_impl!(bool, sea_nd_bool);
+
+
+#[no_mangle]
+pub fn nd_usize() -> usize { unsafe { sea_nd_usize() } }
+#[no_mangle]
+pub fn nd_isize() -> isize { unsafe { sea_nd_isize() } }
+#[no_mangle]
+pub fn nd_uintptr() -> usize { unsafe { sea_nd_uintptr() } }
+#[no_mangle]
+pub fn nd_intptr() -> isize { unsafe { sea_nd_intptr() } }
+
 
 
 #[inline(always)]
