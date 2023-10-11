@@ -45,3 +45,5 @@ In `lib.rs` :
 - must include `use verifier`
 - must include `#[cfg_attr(feature = "kani", kani::proof)]` on top of test that should be run by seahorn/kani.
 - use `verifier::any!()` , `verifier::assume!(cond)`, and `verifier::vassert!(cond)` instead of respective sea versions.
+
+There is a script (not fully tested) to add jobs, similar to c-rust.

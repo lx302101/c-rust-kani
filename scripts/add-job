@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""
+Script to autogenerate the files necessary to add a new
+job to the project.
+"""
+
+import json
+import os
+import sys
+
+from string import Template
+from textwrap import dedent
+
+BASE = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+def generate_cargo(directory, job):
+    file_contents = Template(dedent("""\
+        cargo-features = ["profile-rustflags"]
+
+        [package]
+        name = "$job-lib"
+        version = "0.1.0"
+        edition = "2021"
+
+        [lib]
+        crate-type = ["staticlib"]
+        path = "lib.rs"
+
+        [dependencies]
+        libc = "0.2"
+        verifier = { path = "../../verifier/src"}
+        cfg-if = "0.1.10"
+
+        
+        [dependencies.sea]
+        path = "../../sea-lib"
+        default-features = false
+        features = ["std"]
+
+        [features]
+        default = []  # Specify other default features here, if any        
+    """)).substitute(job=job)
+
+    with open(f"{directory}/Cargo.toml", "w") as file:
+        file.write(file_contents)
+
+
+def generate_cmake_lists(directory, job):
+    file_contents = Template(dedent("""\
+        c_rust_llvm($job $job.c)
+
+        sea_add_unsat_test($job)
+    """)).substitute(job=job)
+
+    with open(f"{directory}/CMakeLists.txt", "w") as file:
+        file.write(file_contents)
+
+
+def generate_rust(directory):
+    file_contents = Template(dedent("""\
+        #![cfg_attr(not(feature = "kani"), no_std)]
+        
+        #[no_mangle]
+        #[cfg_attr(feature = "kani", kani::proof)]
+        pub extern \"C\" fn entrypt() {
+            
+        }
+    """)).substitute()
+
+    with open(f"{directory}/lib.rs", "w") as file:
+        file.write(file_contents)
+
+
+def generate_c(directory, job):
+    file_contents = Template(dedent("""\
+        #include <stdio.h>
+
+        #include "seahorn/seahorn.h"
+        #include "inc/lib.h"
+
+        int main() {
+            entrypt();
+            return 42;
+        }
+    """)).substitute()
+
+    with open(f"{directory}/{job}.c", "w") as file:
+        file.write(file_contents)
+
+
+def add_to_json(job):
+    json_file = os.path.join(BASE, "scripts", "rust-jobs.json")
+
+    with open(json_file, "r") as file:
+        data = json.load(file)
+        data["jobs"].append(job)
+        data["jobs"] = sorted(data["jobs"])
+
+    with open(json_file, "w") as file:
+        json.dump(data, file, indent=4)
+
+
+def update_cmake():
+    json_file = os.path.join(BASE, "scripts", "rust-jobs.json")
+
+    with open(json_file, "r") as file:
+        data = json.load(file)
+        job_list = data["jobs"]
+
+    job_str = ")\nadd_subdirectory(".join([f"{job}" for job in job_list])
+    cmake_file = os.path.join(BASE, "src", "rust-jobs", "CMakeLists.txt")
+
+    file_contents = Template(dedent("""\
+        add_subdirectory($job_str)
+    """)).substitute(data=data, job_str=job_str)
+
+    with open(cmake_file, "w") as file:
+        file.write(file_contents)
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Error: Please specify a name for your job.")
+    else:
+        args = len(sys.argv)
+        for i in range(1, args):
+            job = sys.argv[i]
+            directory = os.path.join(BASE, "src", "rust-jobs", job)
+            if os.path.isdir(directory):
+                print(f"Error: The job \"{job}\" already exists.")
+                continue
+
+            os.mkdir(directory)
+            generate_cargo(directory, job)
+            generate_cmake_lists(directory, job)
+            generate_rust(directory)
+            generate_c(directory, job)
+            add_to_json(job)
+            print(f"Created job: {job}")
+
+        update_cmake()
+
+
+if __name__ == "__main__":
+    main()
