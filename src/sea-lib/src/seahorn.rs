@@ -15,8 +15,6 @@ pub fn nd_i16() -> i16 { unsafe { sea_nd_i16() } }
 #[no_mangle]
 pub fn nd_u16() -> u16 { unsafe { sea_nd_u16() } }
 #[no_mangle]
-pub fn nd_i32() -> i32 { unsafe { sea_nd_i32() } }
-#[no_mangle]
 pub fn nd_u32() -> u32 { unsafe { sea_nd_u32() } }
 #[no_mangle]
 pub fn nd_i64() -> i64 { unsafe { sea_nd_i64() } }
@@ -50,4 +48,30 @@ macro_rules! sassert {
             sea::verifier_error();
         }
     }};
+}
+
+pub trait Arbitrary
+where
+    Self: Sized,
+{
+    fn any() -> Self;
+}
+
+macro_rules! generate_impl {
+    ( $type: ty, $sea_func: expr ) => {
+        impl Arbitrary for $type {
+            #[inline(always)]
+            fn any() -> $type {
+                unsafe { $sea_func() }
+            }
+        }
+    };
+}
+
+generate_impl!(i32, sea_nd_i32);
+
+
+#[inline(always)]
+pub fn any<T: Arbitrary>() -> T {
+    T::any()
 }

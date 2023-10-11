@@ -7,8 +7,8 @@ use verifier;
 #[cfg_attr(feature = "kani", kani::proof)]
 pub extern "C" fn entrypt() {
 
-    let mut v: i32  = verifier::nd_i32();
-    verifier::assume(v > 0);
+    let mut v: i32  = verifier::any!();
+    verifier::assume!(v > 0);
     let original: i32 = v;
 
     let n: *mut i32 = &mut v;
@@ -18,5 +18,5 @@ pub extern "C" fn entrypt() {
         *n = *n + 1;
     }
 
-    verifier::assert(v == original + 2);
+    verifier::vassert!(v == original + 2);
 }
