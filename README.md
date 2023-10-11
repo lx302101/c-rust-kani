@@ -22,6 +22,7 @@ rm -Rf build && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=clang-14 -DC
 ./verify src/rust-jobs/add/
 ``` 
 
+`RUSTFLAGS` environment variable need to be set so that `kani` is not a feature before every build.
 
 ## How to make Kani Proofs
 Create a folder under src/rust-jobs. In this folder, there will be 4 files:
