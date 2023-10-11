@@ -1,9 +1,4 @@
-
-// use v_macro;
-
 #![cfg_attr(not(feature = "kani"), no_std)]
-
-
 
 use verifier;
 

@@ -16,6 +16,19 @@ pub fn nd_i32() -> i32 {
     }
 }
 
+// #[macro_export]
+// macro_rules! nd_i32 {
+//     () => {
+//         cfg_if!{
+//             if #[cfg(feature = "kani")] {
+//                 kani::any()
+//             } else {
+//                 sea::nd_i32()
+//             }
+//         }
+//     }
+// }
+
 #[inline(always)]
 pub fn assume(cond : bool) {
     cfg_if!{

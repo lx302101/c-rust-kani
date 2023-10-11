@@ -4,12 +4,23 @@ Repository to compare kani and seahorn on similar rust code.
 ## How to run Kani Proofs
 The current build system is still in the early stages. There are a number of [pain points](#build-system-pain-points) which need to be addressed before it fully matures. For now, this is a brief description of how to run the tests.
 
-### To run all tests:
-To run all the tests, run `RUSTFLAGS='--cfg feature="kani"' cargo kani` in any directory.
-- This will generate a `target/` file in the root directory which contains kani debug logs.
-To run individual tests: go to source directory (ex. `src/rust-jobs/add/`) and run kani lib.rs
+### To run kani tests:
+To run all the tests - run in root folder:
+```
+    export RUSTFLAGS='--cfg feature="kani"'
+    cargo kani
+``` 
+
 
 To find exceptions: 
+
+### To run seahorn tests:
+```
+    export RUSTFLAGS='--cfg feature=""'
+    rm -Rf build && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=clang-14 -DCMAKE_CXX_COMPILER=clang++-14 -DSEAHORN_ROOT=$HOME/seahorn/build-dbg/run/ ../ -GNinja && cmake --build .
+    // in build folder
+    ./verify src/rust-jobs/add/
+``` 
 
 
 ## How to make Kani Proofs
