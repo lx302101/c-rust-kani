@@ -1,24 +1,14 @@
-// Entry point for the proof
+#![cfg_attr(not(feature = "kani"), no_std)]
 
-use v_macro;
 use verifier;
 
+
 #[no_mangle]
+#[cfg_attr(feature = "kani", kani::proof)]
 pub extern "C" fn entrypt() {
-    test_test1();
-}
-
-// #[cfg(kani)]
-// #[kani::proof]
-#[v_macro::select()]
-fn test_test1() {
-    // let mut x: i32 = sea::nd_i32();
-
-    // let mut x: i32 = kani::any();
-    
     let mut x: i32 = verifier::nd_i32();
-    // kani::assume(x < i32::MAX);
-    // x += 4;
+    verifier::assume(x < 10);
+    x += 4;
 
-    // assert!(x < 14);
+    verifier::assert(x < 14);
 }

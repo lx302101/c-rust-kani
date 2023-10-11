@@ -5,7 +5,7 @@ Repository to compare kani and seahorn on similar rust code.
 The current build system is still in the early stages. There are a number of [pain points](#build-system-pain-points) which need to be addressed before it fully matures. For now, this is a brief description of how to run the tests.
 
 ### To run all tests:
-To run all the tests, run `cargo kani` in any directory.
+To run all the tests, run `RUSTFLAGS='--cfg feature="kani"' cargo kani` in any directory.
 - This will generate a `target/` file in the root directory which contains kani debug logs.
 To run individual tests: go to source directory (ex. `src/rust-jobs/add/`) and run kani lib.rs
 

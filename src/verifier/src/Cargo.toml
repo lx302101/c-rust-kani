@@ -6,10 +6,19 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
+name = "verifier"
+crate-type = ["lib"]
 path = "lib.rs"
+
 
 [features]
 default = []
+kani = []
 
 [dependencies]
 cfg-if = "0.1.10"
+
+[dependencies.sea]
+path = "../../sea-lib"
+default-features = false
+features = ["panic_error"]

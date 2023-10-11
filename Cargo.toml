@@ -28,6 +28,27 @@ opt-level = 2
 #   "-Zemit-thin-lto=no"
 #]
 
+[profile.dev-seahorn]
+inherits="dev"
+
+rustflags = [
+   "-Clinker-plugin-lto", 
+   "-Clinker=clang-14",
+   "-Clink-arg=-fuse-ld=lld",
+   "-Zemit-thin-lto=no",
+]
+
+[profile.release-seahorn]
+inherits="release"
+
+rustflags = [
+   "-Clinker-plugin-lto", 
+   "-Clinker=clang-14",
+   "-Clink-arg=-fuse-ld=lld",
+   "-Zemit-thin-lto=no",
+]
+
+
 [profile.dev.package.smallvec-drain-error-lib]
 overflow-checks = false
 

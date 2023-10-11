@@ -1,26 +1,24 @@
-cargo-features = ["profile-rustflags"]
-
 [package]
-name = "pointer-lib"
+name = "sea"
 version = "0.1.0"
 edition = "2021"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-crate-type = ["staticlib"]
-path = "lib.rs"
+crate-type = ["staticlib", "lib"]
 
 [dependencies]
 libc = "0.2"
-verifier = { path = "../../verifier/src"}
-cfg-if = "0.1.10"
+unroll = "0.1.5"
+sea = { version = "0.1.0", optional = true }
 
-[dependencies.sea]
-path = "../../sea-lib"
+[dependencies.custom-print]
+version = "1.0.0"
 default-features = false
-features = []
 
 [features]
 default = []  # Specify other default features here, if any
-panic_handler = []
+std = []
+panic_error = []
