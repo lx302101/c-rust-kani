@@ -1,6 +1,10 @@
 {
     "jobs": [
         "add",
-        "pointer"
+        "mut_ref_on_stack",
+        "pointer",
+        "pointer_same_arg",
+        "read_across_f",
+        "ro_shared_references"
     ]
 }

@@ -2,9 +2,17 @@
 Repository to compare kani and seahorn on similar rust code.
 
 ## How to run Kani Proofs
-Not sure how to run individual tests in kani just yet.
 
 ### To run kani tests:
+
+To run a single test - cd into test directory and run:
+```
+export RUSTFLAGS='--cfg feature="kani"'
+cargo kani
+``` 
+If seahorn is built in the build folder, source files can also be found in the build folder. So, the same commands will work in the build folder.
+
+
 To run all the tests - run in root folder:
 ```
 export RUSTFLAGS='--cfg feature="kani"'

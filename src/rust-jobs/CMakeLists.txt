@@ -1,2 +1,6 @@
 add_subdirectory(add)
+add_subdirectory(mut_ref_on_stack)
 add_subdirectory(pointer)
+add_subdirectory(pointer_same_arg)
+add_subdirectory(read_across_f)
+add_subdirectory(ro_shared_references)
