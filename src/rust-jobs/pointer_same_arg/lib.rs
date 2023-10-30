@@ -3,6 +3,15 @@
 // example taken from page 2 of 
 // https://plv.mpi-sws.org/rustbelt/stacked-borrows/
 
+// This example demonstrates a discrepency between Seahorn and Kani.
+//
+// Llvm will optimze the return value in example1 function. What this means
+// is that it will return x_value instead (in llvm_ir). Hence, when validating
+// with seahorn, that is the behavior seen.
+//
+// I am unsure how Kani analyzes this. Never the less, kani will return y_value instead
+// since *x does not get optimized to x_value.
+
 use verifier;
 
 #[no_mangle]
