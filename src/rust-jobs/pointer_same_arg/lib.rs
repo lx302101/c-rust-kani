@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "kani"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 // example taken from page 2 of 
 // https://plv.mpi-sws.org/rustbelt/stacked-borrows/
@@ -27,6 +27,10 @@ pub extern "C" fn entrypt() {
 
     let raw_pointer = & mut local as * mut i32;
     let result:i32 = unsafe { example1 (& mut * raw_pointer , & mut * raw_pointer , x_value, y_value) };
-    // verifier::vassert!(result != y_value);
+
+    // this will pass seahorn but not pass kani
     verifier::vassert!((result == x_value) && b);
+
+    // this will pass kani but not pass seahorn
+    verifier::vassert!((result == y_value) && b);
 }

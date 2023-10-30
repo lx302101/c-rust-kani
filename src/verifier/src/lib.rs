@@ -1,7 +1,11 @@
-#![cfg_attr(not(feature = "kani"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std)]
 
-#[cfg(not(feature = "kani"))]
-pub use sea;
+#[cfg(all(not(feature = "kani"), feature = "std"))]
+#[cfg(feature = "std")]
+pub use sea_std as sea;
+
+#[cfg(all(not(feature = "kani"), not(feature = "std")))]
+pub use sea_panic_error as sea;
 
 #[macro_export]
 macro_rules! any {

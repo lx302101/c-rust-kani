@@ -12,13 +12,17 @@ path = "lib.rs"
 
 
 [features]
-default = []
-kani = []
+default = ["sea_panic_error"]
+std = ["sea_std"]
+no_std = ["sea_panic_error"]
 
 [dependencies]
 cfg-if = "0.1.10"
+sea_std = { package = "sea", path = "../../sea-lib", default-features = false, features = ["std"], optional = true }
+sea_panic_error = { package = "sea", path = "../../sea-lib", default-features = false, features = ["panic_error"], optional = true }
 
-[dependencies.sea]
-path = "../../sea-lib"
-default-features = false
-features = ["panic_error"]
+# [dependencies.sea]
+# path = "../../sea-lib"
+# default-features = false
+# features = ["panic_error"]
+

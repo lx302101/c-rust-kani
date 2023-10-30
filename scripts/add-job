@@ -28,9 +28,12 @@ def generate_cargo(directory, job):
 
         [dependencies]
         libc = "0.2"
-        verifier = { path = "../../verifier/src"}
         cfg-if = "0.1.10"
 
+        [dependencies.verifier]
+        path = "../../verifier/src"
+        default-features = false
+        features = ["no_std"]
         
         [dependencies.sea]
         path = "../../sea-lib"
@@ -58,7 +61,7 @@ def generate_cmake_lists(directory, job):
 
 def generate_rust(directory):
     file_contents = Template(dedent("""\
-        #![cfg_attr(not(feature = "kani"), no_std)]
+        #![cfg_attr(not(feature = "std"), no_std)]
         
         #[no_mangle]
         #[cfg_attr(feature = "kani", kani::proof)]

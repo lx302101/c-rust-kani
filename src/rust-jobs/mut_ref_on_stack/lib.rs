@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "kani"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 // example taken from page 7 of 
 // https://plv.mpi-sws.org/rustbelt/stacked-borrows/
@@ -29,6 +29,6 @@ pub extern "C" fn entrypt() {
         result = *raw_pointer1;
     }
 
-    verifier::vassert!((result == y_value)&& b);
+    verifier::vassert!((result == y_value) && b);
 
 }
