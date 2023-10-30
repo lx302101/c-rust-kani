@@ -21,8 +21,3 @@ cfg-if = "0.1.10"
 sea_std = { package = "sea", path = "../../sea-lib", default-features = false, features = ["std"], optional = true }
 sea_panic_error = { package = "sea", path = "../../sea-lib", default-features = false, features = ["panic_error"], optional = true }
 
-# [dependencies.sea]
-# path = "../../sea-lib"
-# default-features = false
-# features = ["panic_error"]
-

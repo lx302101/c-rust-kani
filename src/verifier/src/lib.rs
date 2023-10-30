@@ -1,10 +1,10 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-#[cfg(all(not(feature = "kani"), feature = "std"))]
+#[cfg(all(not(kani), feature = "std"))]
 #[cfg(feature = "std")]
 pub use sea_std as sea;
 
-#[cfg(all(not(feature = "kani"), not(feature = "std")))]
+#[cfg(all(not(kani), not(feature = "std")))]
 pub use sea_panic_error as sea;
 
 #[macro_export]
@@ -13,7 +13,7 @@ macro_rules! any {
         use cfg_if::cfg_if;
         
         cfg_if!{
-            if #[cfg(feature = "kani")] {
+            if #[cfg(kani)] {
                 kani::any()
             } else {
                 sea::any()
@@ -28,7 +28,7 @@ macro_rules! assume {
         use cfg_if::cfg_if;
         
         cfg_if!{
-            if #[cfg(feature = "kani")] {
+            if #[cfg(kani)] {
                 kani::assume($cond)
             } else {
                 sea::assume($cond);
@@ -43,7 +43,7 @@ macro_rules! vassert {
         use cfg_if::cfg_if;
         
         cfg_if!{
-            if #[cfg(feature = "kani")] {
+            if #[cfg(kani)] {
                 assert!($cond)
             } else {
                 sea::sassert!($cond)

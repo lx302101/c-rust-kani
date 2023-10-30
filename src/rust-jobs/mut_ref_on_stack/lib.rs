@@ -7,7 +7,7 @@ use verifier;
 
 
 #[no_mangle]
-#[cfg_attr(feature = "kani", kani::proof)]
+#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
 
     let x_value:i32 = verifier::any!();

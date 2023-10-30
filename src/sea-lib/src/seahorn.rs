@@ -1,4 +1,5 @@
 use crate::bindings::*;
+use sea_nd_func::generate_impl;
 
 #[no_mangle]
 pub fn verifier_error() { unsafe { __VERIFIER_error(); } }
@@ -31,38 +32,17 @@ where
     fn any() -> Self;
 }
 
-macro_rules! generate_impl {
-    ( $type: ty, $sea_func: expr ) => {
-        impl Arbitrary for $type {
-            #[inline(always)]
-            fn any() -> $type {
-                unsafe { $sea_func() }
-            }
-        }
-    };
-}
-
-generate_impl!(i8, sea_nd_i8);
-generate_impl!(u8, sea_nd_u8);
-generate_impl!(i16, sea_nd_i16);
-generate_impl!(u16, sea_nd_u16);
-generate_impl!(i32, sea_nd_i32);
-generate_impl!(u32, sea_nd_u32);
-generate_impl!(i64, sea_nd_i64);
-generate_impl!(u64, sea_nd_u64);
-
-generate_impl!(bool, sea_nd_bool);
-
-
-#[no_mangle]
-pub fn nd_usize() -> usize { unsafe { sea_nd_usize() } }
-#[no_mangle]
-pub fn nd_isize() -> isize { unsafe { sea_nd_isize() } }
-#[no_mangle]
-pub fn nd_uintptr() -> usize { unsafe { sea_nd_uintptr() } }
-#[no_mangle]
-pub fn nd_intptr() -> isize { unsafe { sea_nd_intptr() } }
-
+generate_impl!(i8);
+generate_impl!(u8);
+generate_impl!(i16);
+generate_impl!(u16);
+generate_impl!(i32);
+generate_impl!(u32);
+generate_impl!(i64);
+generate_impl!(u64);
+generate_impl!(bool);
+generate_impl!(usize);
+generate_impl!(isize);
 
 
 #[inline(always)]

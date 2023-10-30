@@ -13,7 +13,7 @@ fn example1 (x: & mut i32 , y: & mut i32, x_value: i32, y_value: i32 ) -> i32 {
 }
 
 #[no_mangle]
-#[cfg_attr(feature = "kani", kani::proof)]
+#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     let x_value:i32 = verifier::any!();
     let y_value:i32 = verifier::any!();

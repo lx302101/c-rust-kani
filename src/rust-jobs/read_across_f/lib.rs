@@ -15,7 +15,7 @@ fn example2_down (x: &i32 , f: impl FnOnce (& i32 )) -> i32 {
 
 
 #[no_mangle]
-#[cfg_attr(feature = "kani", kani::proof)]
+#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     let value:i32 = verifier::any!();
     let mut local = value; // Stored at location ℓ, with tag 0.
