@@ -1,7 +1,7 @@
 cargo-features = ["profile-rustflags"]
 
 [package]
-name = "read_across_f-lib"
+name = "custom-print-writer-lib"
 version = "0.1.0"
 edition = "2021"
 
@@ -16,13 +16,15 @@ cfg-if = "0.1.10"
 [dependencies.verifier]
 path = "../../verifier/src"
 default-features = false
-features = ["panic_error"]
-
+features = ["std"]
 
 [dependencies.sea]
 path = "../../sea-lib"
 default-features = false
-features = ["panic_error"]
+features = ["std"]
 
-[features]
-default = []  # Specify other default features here, if any        
+
+[dependencies.custom-print]
+version = "0.1.0"
+default-features = false
+features = ["alloc"]

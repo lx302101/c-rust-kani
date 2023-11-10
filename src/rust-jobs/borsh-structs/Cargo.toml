@@ -1,7 +1,7 @@
 cargo-features = ["profile-rustflags"]
 
 [package]
-name = "read_across_f-lib"
+name = "borsh-structs-lib"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,19 +10,18 @@ crate-type = ["staticlib"]
 path = "lib.rs"
 
 [dependencies]
-libc = "0.2"
+borsh = "0.10.3"
 cfg-if = "0.1.10"
 
 [dependencies.verifier]
 path = "../../verifier/src"
 default-features = false
-features = ["panic_error"]
-
+features = ["std"]
 
 [dependencies.sea]
 path = "../../sea-lib"
 default-features = false
-features = ["panic_error"]
+features = ["std"]
 
 [features]
 default = []  # Specify other default features here, if any        

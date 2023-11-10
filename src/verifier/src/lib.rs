@@ -1,11 +1,13 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(all(not(kani), feature = "std"))]
-#[cfg(feature = "std")]
 pub use sea_std as sea;
 
-#[cfg(all(not(kani), not(feature = "std")))]
+#[cfg(all(not(kani), feature = "panic_error"))]
 pub use sea_panic_error as sea;
+
+#[cfg(all(not(kani), not(feature = "std"), not(feature = "panic_error")))]
+pub use sea_no_std as sea;
 
 #[macro_export]
 macro_rules! any {
@@ -47,6 +49,21 @@ macro_rules! vassert {
                 assert!($cond)
             } else {
                 sea::sassert!($cond)
+            }
+        }
+    }};
+}
+
+#[macro_export]
+macro_rules! printf {
+    ($cond: expr) => {{
+        use cfg_if::cfg_if;
+        
+        cfg_if!{
+            if #[cfg(kani)] {
+                // println!($cond)
+            } else {
+                sea::sea_printf!(true)
             }
         }
     }};
