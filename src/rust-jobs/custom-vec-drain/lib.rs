@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(kani), no_std)]
 
 extern crate alloc;
 use alloc::alloc::{Layout, alloc, realloc, dealloc, handle_alloc_error};
@@ -51,6 +51,7 @@ pub extern "C" fn entrypt() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_new() {
     let v: CustomVec<i32> = CustomVec::new();
     verifier::vassert!(custom_vec_valid_after_init(&v));
@@ -61,6 +62,7 @@ fn test_new() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_grow() {
     let original = verifier::any!();
 
@@ -82,6 +84,7 @@ fn test_grow() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_pop() {
     let original = verifier::any!();
     verifier::assume!(original > 0);
@@ -101,6 +104,7 @@ fn test_pop() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_push() {
     let original = verifier::any!();
     verifier::assume!(original > 0);
@@ -120,6 +124,7 @@ fn test_push() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drop() {
     pub struct DropTest { _value: i32, }
     impl Drop for DropTest {
@@ -141,6 +146,7 @@ fn test_drop() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_deref() {
     let original: usize = verifier::any!();
     let num_pops: usize = verifier::any!();
@@ -157,6 +163,7 @@ fn test_deref() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_deref_mut() {
     let mut v: CustomVec<i32> = CustomVec::new();
     v.push(0);
@@ -178,6 +185,7 @@ fn test_deref_mut() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_insert() {
     let mut v: CustomVec<i32> = CustomVec::new();
     let n: usize = verifier::any!();
@@ -193,6 +201,7 @@ fn test_insert() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_remove() {
     let mut v: CustomVec<i32> = CustomVec::new();
     let n: usize = verifier::any!();
@@ -208,6 +217,7 @@ fn test_remove() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_into_iter_front() {
     let n: u32 = 3;
 
@@ -224,6 +234,7 @@ fn test_into_iter_front() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_into_iter_back() {
     let n: u32 = 3;
 
@@ -240,6 +251,7 @@ fn test_into_iter_back() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_into_iter_size() {
     let n = 10;
 
@@ -262,6 +274,7 @@ fn test_into_iter_size() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_into_iter_drop() {
     let n: u32 = 4; // max elements it works for (6 due to manual pushes)
     static mut DROP_COUNT: u32 = 0;
@@ -291,6 +304,7 @@ fn test_into_iter_drop() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain_front() {
     let n: u32 = 8; // most elements it will work for
 
@@ -312,6 +326,7 @@ fn test_drain_front() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain_back() {
     let n = 4; // most elements it will work for
 
@@ -333,6 +348,7 @@ fn test_drain_back() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain_size() {
     let n: usize = 8;
     let mut v: CustomVec<u32> = CustomVec::new();
@@ -356,6 +372,7 @@ fn test_drain_size() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain_drop() {
     let n: u32 = 10;
     static mut DROP_COUNT: u32 = 0;

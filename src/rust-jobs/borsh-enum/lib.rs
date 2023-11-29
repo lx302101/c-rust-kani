@@ -10,6 +10,7 @@ pub extern "C" fn entrypt() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_enums() {
     #[derive(BorshSerialize, BorshDeserialize, PartialEq)]
     enum NdType {

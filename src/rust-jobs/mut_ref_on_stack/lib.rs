@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(kani), no_std)]
 
 // example taken from page 7 of 
 // https://plv.mpi-sws.org/rustbelt/stacked-borrows/

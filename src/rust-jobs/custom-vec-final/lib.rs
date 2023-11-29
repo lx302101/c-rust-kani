@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(kani), no_std)]
 #![feature(new_uninit)]
 
 use verifier;
