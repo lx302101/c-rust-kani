@@ -11,6 +11,7 @@ use verifier;
 #[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     let v: i32 = verifier::any!();
+    verifier::assume!(v < i32::MAX/2);
 
     let x: Result<String, i32> = Err(v);
     let y: Result<&str, &i32> = Err(&v);

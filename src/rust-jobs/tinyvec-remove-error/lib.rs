@@ -7,6 +7,7 @@ use tinyvec::ArrayVec;
 // Testing the error fixed here: https://github.com/Lokathor/tinyvec/pull/29
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 pub extern "C" fn entrypt() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
     let len: usize = verifier::any!();

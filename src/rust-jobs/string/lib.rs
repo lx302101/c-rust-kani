@@ -3,12 +3,12 @@
 use verifier;
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     string_compare();
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn string_compare() {
     let x1: u32 = 10;
     let x2: u32 = 20;

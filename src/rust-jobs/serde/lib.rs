@@ -17,7 +17,6 @@ use verifier;
 
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     test();
 
@@ -29,6 +28,7 @@ pub extern "C" fn entrypt() {
 // use alloc::string::String;
 // use crate::alloc::string::ToString;
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test() {
     let v: i32 = verifier::any!();
 

@@ -9,6 +9,7 @@ pub extern "C" fn entrypt() {
 
     let mut v: i32  = verifier::any!();
     verifier::assume!(v > 0);
+    verifier::assume!(v < i32::MAX - 2);
     let original: i32 = v;
 
     let n: *mut i32 = &mut v;

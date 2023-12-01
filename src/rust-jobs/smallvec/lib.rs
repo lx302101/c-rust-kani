@@ -6,8 +6,6 @@ use core::mem::{self, MaybeUninit};
 use smallvec::SmallVec;
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
-#[cfg_attr(kani, kani::unwind(16))]
 pub extern "C" fn entrypt() {
     let v: u8 = verifier::any!();
     match v {
@@ -38,6 +36,8 @@ pub extern "C" fn entrypt() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_clear() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -55,6 +55,8 @@ fn test_clear() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_extend_from_slice() {
     let mut v1: SmallVec<[u32; 8]> = SmallVec::new();
     let mut v2: SmallVec<[u32; 8]> = SmallVec::new();
@@ -80,6 +82,8 @@ fn test_extend_from_slice() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_buf() {
     let buf: [u32; 8] = [verifier::any!(); 8];
 
@@ -90,6 +94,8 @@ fn test_from_buf() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_buf_and_len() {
     let buf: [u32; 8] = [verifier::any!(); 8];
 
@@ -103,6 +109,8 @@ fn test_from_buf_and_len() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_buf_and_len_unchecked() {
     let buf: [u32; 8] = [verifier::any!(); 8];
 
@@ -117,6 +125,8 @@ fn test_from_buf_and_len_unchecked() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_const() {
     let v: SmallVec<[u32; 8]> = SmallVec::from_const([verifier::any!(); 8]);
 
@@ -125,6 +135,8 @@ fn test_from_const() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_elem() {
     let elem: u32 = verifier::any!();
 
@@ -139,6 +151,8 @@ fn test_from_elem() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_raw_parts() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -163,6 +177,8 @@ fn test_from_raw_parts() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_from_slice() {
     let mut buf: [u32; 8] = [0; 8];
 
@@ -177,6 +193,8 @@ fn test_from_slice() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_grow() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -197,6 +215,8 @@ fn test_grow() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_insert() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -225,6 +245,8 @@ fn test_insert() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_insert_from_slice() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
     let mut v2: SmallVec<[u32; 8]> = SmallVec::new();
@@ -264,6 +286,8 @@ fn test_insert_from_slice() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_new() {
     let v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -272,6 +296,8 @@ fn test_new() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_new_const() {
     let v: SmallVec<[u32; 8]> = SmallVec::new_const();
 
@@ -280,6 +306,8 @@ fn test_new_const() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_pop() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -300,6 +328,8 @@ fn test_pop() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_reserve() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -313,6 +343,8 @@ fn test_reserve() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_reserve_exact() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -326,6 +358,8 @@ fn test_reserve_exact() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_set_len() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -341,6 +375,8 @@ fn test_set_len() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_truncate() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -369,6 +405,8 @@ fn test_truncate() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_try_reserve() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -383,6 +421,8 @@ fn test_try_reserve() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_try_reserve_exact() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -397,6 +437,8 @@ fn test_try_reserve_exact() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(16))]
 fn test_with_capacity() {
     let cap: usize = verifier::any!();
     verifier::assume!(cap >= 8);

@@ -4,7 +4,6 @@ use sea::{ SeaVec, sea_vec };
 
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     test_macros();
     test_push_pop();
@@ -22,6 +21,7 @@ pub extern "C" fn entrypt() {
 
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_drop() {
     static mut DROP_COUNT: usize = 0;
     struct DropTest { _x: usize }
@@ -39,6 +39,7 @@ fn test_drop() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_macros() {
     let mut v: SeaVec<i32> = sea_vec![1, 2, 3, 4];
     verifier::vassert!(v.len() == 4);
@@ -66,6 +67,7 @@ fn test_macros() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_push_pop() {
     let mut v: SeaVec<usize> = SeaVec::new(10);
     for i in 0..10 {
@@ -83,6 +85,7 @@ fn test_push_pop() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_indexing() {
     let mut v: SeaVec<usize> = sea_vec![0, 1, 2, 3, 4, 5];
     for i in 0..6 {
@@ -94,6 +97,7 @@ fn test_indexing() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_deref_deref_mut() {
     let mut v: SeaVec<usize> = sea_vec![0, 1, 2, 3];
 
@@ -116,6 +120,7 @@ fn test_deref_deref_mut() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_insert_remove() {
     let mut v: SeaVec<usize> = sea_vec![0, 1, 2, 3, 4];
     v.insert(5, 5);
@@ -133,6 +138,7 @@ fn test_insert_remove() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_iter() {
     let v: SeaVec<usize> = sea_vec![0, 1, 2, 3, 4, 5];
 
@@ -166,6 +172,7 @@ fn test_iter() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_drain() {
     let mut v: SeaVec<usize> = sea_vec![0, 1, 2, 3, 4, 5];
     let mut drain: sea::Drain<'_, usize> = v.drain(0..6);
@@ -203,6 +210,7 @@ fn test_drain() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_zst() {
     static mut DROP_COUNT: usize = 0;
     #[derive(PartialEq)]
