@@ -12,13 +12,13 @@ use verifier;
 // ************************************
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     test();
     verifier::vassert!(true);
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test() {
     panic!();
 

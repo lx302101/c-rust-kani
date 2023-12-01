@@ -7,6 +7,7 @@ use verifier;
 pub extern "C" fn entrypt() {
     let v: i32 = verifier::any!();
     verifier::assume!(v > 0);
+    verifier::assume!(v < i32::MAX/2);
 
     let result: Option<i32> = if (v & 1) == 1 {
         None

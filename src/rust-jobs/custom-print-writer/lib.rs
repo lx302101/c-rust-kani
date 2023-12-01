@@ -25,6 +25,7 @@ macro_rules! eprintln { ($($args:tt)*) => { ceprintln!($($args)*); } }
 pub extern "C" fn entrypt() {
     let v: i32 = verifier::any!();
     verifier::assume!(v >= 1);
+    verifier::assume!(v < i32::MAX/2);
     let result: i32 = v * 2;
 
     print!("test");

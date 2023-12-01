@@ -7,6 +7,7 @@ use alloc::vec::Vec;
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(10))]
 pub extern "C" fn entrypt() {
     // let v: u8 = sea_nd_u8();
     let v: u8 = verifier::any!();

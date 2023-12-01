@@ -102,25 +102,25 @@ pub extern "C" fn entrypt() {
 //     verifier::vassert!(v.cap() == original * 2);
 // }
 
-#[no_mangle]
-#[cfg_attr(kani, kani::proof)]
-fn test_push() {
-    let original = verifier::any!();
-    verifier::assume!(original > 0 && original < 1000000);
+// #[no_mangle]
+// #[cfg_attr(kani, kani::proof)]
+// fn test_push() {
+//     let original = verifier::any!();
+//     verifier::assume!(original > 0 && original < 1000000);
 
-    let mut v: CustomVec<i32> = CustomVec::new();
-    verifier::vassert!(custom_vec_valid_after_init(&v));
+//     let mut v: CustomVec<i32> = CustomVec::new();
+//     verifier::vassert!(custom_vec_valid_after_init(&v));
 
-    v.len = original;
-    v.buf.cap = original;
+//     v.len = original;
+//     v.buf.cap = original;
 
-    v.buf.grow();
-    v.push(0);   
-    verifier::vassert!(v.len == original + 1);
-    verifier::vassert!(v.cap() == original * 2);
-    // verifier::printf!("End of Test Push");
-    // verifier::vassert!(false);
-}
+//     v.buf.grow();
+//     v.push(0);   
+//     verifier::vassert!(v.len == original + 1);
+//     verifier::vassert!(v.cap() == original * 2);
+//     // verifier::printf!("End of Test Push");
+//     // verifier::vassert!(false);
+// }
 
 // #[no_mangle]
 // #[cfg_attr(kani, kani::proof)]

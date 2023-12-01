@@ -10,6 +10,7 @@ pub extern "C" fn entrypt() {
 
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(10))]
 fn test_option() {
     let x: Option<u32> = Some(verifier::any!());
     let encoded: Vec<u8> = x.try_to_vec().unwrap();
