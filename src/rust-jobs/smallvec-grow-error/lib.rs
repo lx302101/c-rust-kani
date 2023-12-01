@@ -1614,7 +1614,7 @@ use verifier;
 // testing code was modified from the unit test that was added with the fix to the bug.
 #[no_mangle]
 #[cfg_attr(kani, kani::proof)]
-#[cfg_attr(kani, kani::unwind(16))]
+#[cfg_attr(kani, kani::unwind(17))]
 pub extern "C" fn entrypt() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
     

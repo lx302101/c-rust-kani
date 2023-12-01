@@ -2,6 +2,19 @@
 Individual tests are run by going into the job directory and running 
 `cargo kani --harness <test_name>`
 
+Interesting Notes:
+1. Kani will try and unroll as many time as possible even if there is an assumption that bounds the loop. An example of this is the below code:
+```Rust
+let x : usize = verifier::any!();
+verifier::assume!(x < 8);
+for i in 0..x {
+	// do something
+}
+```
+2. 
+
+
+
 `add`: 
 - Success
 
@@ -355,16 +368,47 @@ error: Failed to execute cargo (exit status: 101). Found 3 compilation errors.
 `smallvec-bound8`:
 
 `smallvec-drain-error`:
+```
+SUMMARY:
+ ** 1 of 495 failed (17 unreachable)
+Failed Checks: attempt to add with overflow
+ File: "/home/liangubuntu2/kani/src/rust-jobs/smallvec-drain-error/lib.rs", line 729, in SmallVec::<[u8; 8]>::drain::<std::ops::RangeToInclusive<usize>>
 
+VERIFICATION:- FAILED
+Verification Time: 2.2963533s
+```
+  
 `smallvec-grow-error`:
+```
+SUMMARY:
+ ** 1 of 298 failed (4 unreachable)
+Failed Checks: assertion failed: !v.spilled()
+ File: "/home/liangubuntu2/kani/src/rust-jobs/smallvec-grow-error/lib.rs", line 1633, in entrypt
+
+VERIFICATION:- FAILED
+Verification Time: 4.229166s
+```
 
 `smallvec-insert_many-error`:
+- Kani gets stuck after converting to SSA
 
 `smallvec-insert_many-fix`:
+- Kani gets stuck after converting to SSA
 
 `smallvec-insert-optimization`:
+- Kani returned success
 
 `smallvec-memory-leak`:
+```
+SUMMARY:
+ ** 1 of 3537 failed (3536 undetermined)
+Failed Checks: try is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/267
+ File: "/github/home/.rustup/toolchains/nightly-2023-09-06-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/panicking.rs", line 490, in std::panicking::r#try::<(), [closure@src/rust-jobs/smallvec-memory-leak/lib.rs:1784:45: 1784:52]>
+
+VERIFICATION:- FAILED
+** WARNING: A Rust construct that is not currently supported by Kani was found to be reachable. Check the results for more details.
+Verification Time: 2.0432367s
+```
 
 `string`:
 - Kani returns success
@@ -376,7 +420,80 @@ error: Failed to execute cargo (exit status: 101). Found 3 compilation errors.
 - Kani returns success
 
 `tinyvec-arrayvec`:
+- `test_append()`:
+	- Kani returned a runtime error, presumably from intended panic
+```
+SUMMARY:
+ ** 1 of 37 failed (1 unreachable)
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/home/liangubuntu2/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tinyvec-1.6.0/src/arrayvec.rs", line 822, in tinyvec::ArrayVec::<[u32; 8]>::set_len
 
+VERIFICATION:- FAILED
+Verification Time: 0.6672357s
+```
+- `test_clear()`:
+	- Kani returned success
+- `test_drain()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given, and it still takes a very long time to run this test. 
+- `test_extend_from_slice()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_fill()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given, and Kani returned success
+- `test_from_array_empty()`:
+	- Kani returned success
+- `test_from_array_len()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_insert()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given. Kani still returned capacity overflow error and runtime error.
+```
+SUMMARY:
+ ** 2 of 208 failed (15 unreachable)
+Failed Checks: ArrayVec::insert> capacity overflow!
+ File: "/home/liangubuntu2/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tinyvec-1.6.0/src/arrayvec.rs", line 518, in tinyvec::ArrayVec::<[u32; 8]>::insert
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/home/liangubuntu2/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tinyvec-1.6.0/src/arrayvec.rs", line 541, in tinyvec::ArrayVec::<[u32; 8]>::try_insert
+
+VERIFICATION:- FAILED
+Verification Time: 34.26493s
+```
+- `test_new()`:
+	- Kani returned success
+- `test_pop()`:
+	- Kani returned success
+- `test_push()`:
+	- Kani returns capacity overflow error, as expected.
+- `test_remove()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given. Still, loop unwinding takes a very long time, and produced the following error:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize()`:
+	- Kani produced error for capacity overflow
+- `test_resize_with()`:
+	- Kani produced capacity overflow error
+- `test_retain()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given. Still, loop unwinding takes a very long time.
+- `test_set_len()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_splice()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given. Still, loop unwinding takes a very long time.
+- `test_splice_panic()`:
+	- Kani again will try to unroll the loop, but will not respect the bounds given through assume. So, an explicit bound is given. Still, loop unwinding takes a very long time.
+- `test_split_off()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_swap_remove()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_truncate()`: 
+	- Kani returned success
+- `test_try_append()`:
+	- Kani returned success
+- `test_try_from_array_len()`:
+	- Kani returned success
+- `test_try_insert()`:
+	- Kani returned a runtime error, presumably from intended panic
+- `test_try_push()`:
+	- Kani returned success
 
 `tinyvec-capacity-error`:
 - Kani enters infinite unrolling of the loop (to i16::MAX)

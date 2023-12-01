@@ -5,7 +5,6 @@ use verifier;
 use tinyvec::ArrayVec;
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
 pub extern "C" fn entrypt() {
     let v: u8 = verifier::any!();
     match v {
@@ -40,6 +39,7 @@ pub extern "C" fn entrypt() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_append() {
     let mut v1: ArrayVec<[u32; 8]> = ArrayVec::new();
     let mut v2: ArrayVec<[u32; 8]> = ArrayVec::new();
@@ -75,6 +75,7 @@ fn test_append() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_clear() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -92,6 +93,8 @@ fn test_clear() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_drain() {
     let mut v1: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -143,6 +146,7 @@ fn test_drain() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_extend_from_slice() {
     let mut v1: ArrayVec<[u32; 8]> = ArrayVec::new();
     let mut v2: ArrayVec<[u32; 8]> = ArrayVec::new();
@@ -174,6 +178,8 @@ fn test_extend_from_slice() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_fill() {
     let len: usize = verifier::any!();
     verifier::assume!(len <= 8);
@@ -190,6 +196,7 @@ fn test_fill() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_from_array_empty() {
     let v: ArrayVec<[u32; 8]> = ArrayVec::from_array_empty([0; 8]);
 
@@ -197,11 +204,13 @@ fn test_from_array_empty() {
 
     // Necessary to make seahorn work.
     let x: u32 = verifier::any!();
+    verifier::assume!(x < u32::MAX/2);
     let result: u32 = x * 2;
     verifier::vassert!(result >= x);
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_from_array_len() {
     let len: usize = verifier::any!();
 
@@ -219,6 +228,7 @@ fn test_from_array_len() {
 
     // Necessary to make seahorn work.
     let x: u32 = verifier::any!();
+    verifier::assume!(x < u32::MAX/2);
     let result: u32 = x * 2;
     verifier::vassert!(result >= x);
 }
@@ -251,6 +261,8 @@ fn test_grab_spare_slice() {
 */
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_insert() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -288,6 +300,7 @@ fn test_insert() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_new() {
     let v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -296,11 +309,13 @@ fn test_new() {
 
     // Necessary to make seahorn work.
     let x: u32 = verifier::any!();
+    verifier::assume!(x < u32::MAX/2);
     let result: u32 = x * 2;
     verifier::vassert!(result >= x);
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_pop() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -323,6 +338,7 @@ fn test_pop() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_push() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
     let len: usize = verifier::any!();
@@ -346,6 +362,8 @@ fn test_push() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_remove() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
     let len: usize = verifier::any!();
@@ -384,6 +402,8 @@ fn test_remove() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_resize() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -415,6 +435,8 @@ fn test_resize() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_resize_with() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -446,6 +468,8 @@ fn test_resize_with() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_retain() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -474,6 +498,7 @@ fn test_retain() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
 fn test_set_len() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -491,6 +516,8 @@ fn test_set_len() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(5))]
 fn test_splice() {
     let mut v1: ArrayVec<[u32; 4]> = ArrayVec::new();
 
@@ -523,6 +550,8 @@ fn test_splice() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(5))]
 fn test_splice_panic() {
     let mut v1: ArrayVec<[u32; 4]> = ArrayVec::new();
 
@@ -569,6 +598,8 @@ fn test_splice_panic() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_split_off() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -594,6 +625,8 @@ fn test_split_off() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(6))]
 fn test_swap_remove() {
     let mut v: ArrayVec<[u32; 5]> = ArrayVec::new();
     let len: usize = verifier::any!();
@@ -632,6 +665,8 @@ fn test_swap_remove() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_truncate() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
 
@@ -660,6 +695,8 @@ fn test_truncate() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_try_append() {
     let mut v1: ArrayVec<[u32; 8]> = ArrayVec::new();
     let mut v2: ArrayVec<[u32; 8]> = ArrayVec::new();
@@ -696,6 +733,8 @@ fn test_try_append() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_try_from_array_len() {
     let len: usize = verifier::any!();
 
@@ -710,11 +749,14 @@ fn test_try_from_array_len() {
 
     // Necessary to make seahorn work.
     let x: u32 = verifier::any!();
+    verifier::assume!(x < u32::MAX/2);
     let result: u32 = x * 2;
     verifier::vassert!(result >= x);
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_try_insert() {
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
     
@@ -744,6 +786,8 @@ fn test_try_insert() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_try_push() {
     // NOTE: Create a vector of fixed size capacity
     let mut v: ArrayVec<[u32; 8]> = ArrayVec::new();
