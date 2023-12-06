@@ -5,8 +5,6 @@ use verifier;
 use smallvec::SmallVec;
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
-#[cfg_attr(kani, kani::unwind(2))]
 pub extern "C" fn entrypt() {
     let v: u8 = verifier::any!();
     match v {
@@ -25,6 +23,8 @@ pub extern "C" fn entrypt() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_append() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -52,6 +52,8 @@ fn test_append() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain() {
     const CAP: usize = 2;
     let mut v1: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -84,6 +86,8 @@ fn test_drain() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_drain_panic() {
     const CAP: usize = 2;
     let mut v1: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -117,6 +121,8 @@ fn test_drain_panic() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_insert_many() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -130,6 +136,7 @@ fn test_insert_many() {
     }
 
     let len2: usize = verifier::any!();
+    verifier::assume!(len2 <= CAP);
     verifier::assume!(len + len2 <= CAP);
 
     for _i in 0..len2 {
@@ -148,6 +155,8 @@ fn test_insert_many() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_insert_many_panic() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -161,6 +170,7 @@ fn test_insert_many_panic() {
     }
 
     let len2: usize = verifier::any!();
+    verifier::assume!(len2 <= CAP);
     verifier::assume!(len + len2 <= CAP);
 
     for _i in 0..len2 {
@@ -178,6 +188,8 @@ fn test_insert_many_panic() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_resize() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -197,6 +209,8 @@ fn test_resize() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_resize2() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -217,6 +231,8 @@ fn test_resize2() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_resize_with() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -236,6 +252,8 @@ fn test_resize_with() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(3))]
 fn test_resize_with2() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -256,6 +274,8 @@ fn test_resize_with2() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(4))]
 fn test_shrink_to_fit() {
     const CAP: usize = 2;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();

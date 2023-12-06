@@ -2136,8 +2136,6 @@ where
 }
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
-#[cfg_attr(kani, kani::unwind(4))]
 pub extern "C" fn entrypt() {
     let v: u8 = verifier::any!();
     match v {
@@ -2150,6 +2148,8 @@ pub extern "C" fn entrypt() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(6))]
 fn test_push() {
     const CAP: usize = 4;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -2174,6 +2174,8 @@ fn test_push() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(5))]
 fn test_retain() {
     const CAP: usize = 4;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -2203,6 +2205,8 @@ fn test_retain() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(5))]
 fn test_retain_mut() {
     const CAP: usize = 4;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -2232,6 +2236,8 @@ fn test_retain_mut() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_try_grow() {
     const CAP: usize = 4;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();

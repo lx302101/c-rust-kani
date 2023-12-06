@@ -2136,8 +2136,6 @@ where
 use verifier;
 
 #[no_mangle]
-#[cfg_attr(kani, kani::proof)]
-#[cfg_attr(kani, kani::unwind(8))]
 pub extern "C" fn entrypt() {
     let v: u8 = verifier::any!();
     match v {
@@ -2151,10 +2149,13 @@ pub extern "C" fn entrypt() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_dedup() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
     let len: usize = verifier::any!();
+    verifier::assume!(len <= 8);
 
     for _i in 0..len {
         v.push(verifier::any!());
@@ -2167,6 +2168,8 @@ fn test_dedup() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_dedup_by() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -2184,6 +2187,8 @@ fn test_dedup_by() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_dedup_by_key() {
     let mut v: SmallVec<[u32; 8]> = SmallVec::new();
 
@@ -2201,6 +2206,8 @@ fn test_dedup_by_key() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_remove() {
     const CAP: usize = 8;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();
@@ -2240,6 +2247,8 @@ fn test_remove() {
 }
 
 #[no_mangle]
+#[cfg_attr(kani, kani::proof)]
+#[cfg_attr(kani, kani::unwind(9))]
 fn test_swap_remove() {
     const CAP: usize = 8;
     let mut v: SmallVec<[u32; CAP]> = SmallVec::new();

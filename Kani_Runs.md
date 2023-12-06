@@ -11,9 +11,7 @@ for i in 0..x {
 	// do something
 }
 ```
-2. 
-
-
+2. Kani uses the default `assert!` whereas seahorn does not. This means that for classes that utilized the default `assert!`, seahorn expects the result to be `is_error`, whereas kani will catch the specific error from the `assert!(...)`
 
 `add`: 
 - Success
@@ -354,19 +352,213 @@ error: Failed to execute cargo (exit status: 101). Found 3 compilation errors.
 	- Kani errors with capacity overflow
 
 `smallvec-allocation`:
+- `test_clear()`:
+	- Kani returns success
+- `test_extend_from_slice()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_from_buf()`:
+	- Kani returns success
+- `test_from_buf_and_len()`:
+	- Kani returns success
+- `test_from_buf_and_len_unchecked()`:
+	- Kani returns success
+- `test_from_const()`:
+	- Kani returns success
+- `test_from_elem()`:
+	- Kani returns success
+- `test_from_raw_parts()`:
+	- Rust dealloc requires memory size to match
+```
+SUMMARY:
+ ** 1 of 340 failed (10 unreachable)
+Failed Checks: rust_dealloc must be called on an object whose allocated size matches its layout
+ File: "/home/liangubuntu2/.kani/kani-0.36.0/library/kani/kani_lib.c", line 86, in __rust_dealloc
+```
+- `test_from_slice()`:
+	- Kani returns success
+- `test_grow()`:
+	- Kani returns success
+- `test_insert()`:
+	- If expected panic is removed, Kani returns success
+- `test_insert_from_slice()`:
+	- This somehow crashes my WSL2 connection
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_new()`:
+	- Kani returns success
+- `test_new_const()`:
+	- Kani returns success
+- `test_pop()`:
+	- Kani returns success
+- `test_reserve()`:
+	- Kani returns success
+- `test_reserve_exact()`:
+	- Kani returns success
+- `test_set_len()`:
+	- Kani returns success
+- `test_truncate()`:
+	- Kani returns success
+- `test_try_reserve()`:
+	- Kani returns success
+- `test_try_reserve_exact()`:
+	- Kani returns success
+- `test_with_capacity()`:
+	- Kani returns error: capacity overflow (from panic)
 
 `smallvec-allocation-bound2`:
+- `test_append()`:
+	- Kani returns success
+- `test_drain()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_drain_panic()`:
+	- If panic check is removed, kani returns error from assert made in class
+	- If panic check is kept in, the following error is seen:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_insert_many():
+	- Kani returns success
+- `test_insert_many_panc()`:
+	- Kani catches assert before it panics:
+```
+SUMMARY:
+ ** 3 of 573 failed (22 unreachable)
+Failed Checks: attempt to add with overflow
+ File: "/home/liangubuntu2/kani/src/rust-jobs/smallvec-allocation-bound2/lib.rs", line 2304, in test_insert_many_panic
+Failed Checks: attempt to add with overflow
+ File: "/home/liangubuntu2/kani/src/rust-jobs/smallvec-allocation-bound2/lib.rs", line 1108, in SmallVec::<[u32; 2]>::insert_many::<SmallVec<[u32; 2]>>
+Failed Checks: assertion failed: index <= old_len
+ File: "/home/liangubuntu2/kani/src/rust-jobs/smallvec-allocation-bound2/lib.rs", line 1112, in SmallVec::<[u32; 2]>::insert_many::<SmallVec<[u32; 2]>>	  
+```
+- `test_resize()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize2()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize_with()`:
+	- Kani returns success
+- `test_resize_with2()`:
+	- Kani returns success
+- `test_shrink_to_fit()`:
+	- Kani returns success
 
 `smallvec-allocation-bound4`:
+- `test_push()`:
+	- Kani returns success
+- `test_retain()`:
+	- Kani returns success
+- `test_retain_mut()`:
+	- Kani returns success
+- `test_try_grow()`:
+	- Error caused by having `assert!` in class code
 
 `smallvec-allocation-bound8`:
-
+- `test_dedup()`:
+	- Kani returned success
+- `test_dedup_by()`:
+	- Kani returned success
+- `test_dedup_by_key()`:
+	- Kani returned success
+- `test_remove()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_swap_remove()`:
+	- If panic check is removed, kani returns success
+	- If panic check is kept in, the following error is seen:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
 `smallvec-bound2`:
+- `test_append()`:
+	- Kani returned success
+- `test_drain()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_drain_panic()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_insert_many()`:
+	- Kani returned success
+- `test_insert_many_panic()`:
+	- Expects to panic, Kani detects index out of bounds first
+- `test_resize()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize2()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize_with()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_resize_with2()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_shrink_to_fit()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
 
 `smallvec-bound4`:
+- `test_push()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_retain()`:
+	- Kani returned success
+- `test_retain_mut()`:
+	- Kani returned success
+- `test_try_grow()`:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
 
 `smallvec-bound8`:
-
+- `test_dedup():`
+	- Kani returned success
+- `test_dedup_by()`:
+	- Kani returned success
+- `test_dedup_by_key()`:
+	- Kani returned success
+- `test_remove()`:
+	- Kani returned with the following error:
+```
+CBMC failed with status 137
+VERIFICATION:- FAILED
+```
+- `test_remove_swap()`: also returned the same error above
+  
 `smallvec-drain-error`:
 ```
 SUMMARY:
@@ -377,7 +569,7 @@ Failed Checks: attempt to add with overflow
 VERIFICATION:- FAILED
 Verification Time: 2.2963533s
 ```
-  
+
 `smallvec-grow-error`:
 ```
 SUMMARY:
